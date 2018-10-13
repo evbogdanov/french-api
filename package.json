@@ -1,0 +1,28 @@
+{
+  "name": "french-api",
+  "version": "0.1.0",
+  "author": "Ev Bogdanov",
+  "license": "MIT",
+  "description": "Back end for my French app",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel src/index.js --out-dir build",
+    "start": "babel-watch src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evbogdanov/french-api.git"
+  },
+  "dependencies": {
+    "dotenv": "^6.1.0",
+    "express": "^4.16.4",
+    "express-async-handler": "^1.1.4",
+    "pg": "^7.5.0",
+    "pg-promise": "^8.5.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-watch": "^2.0.7"
+  }
+}
