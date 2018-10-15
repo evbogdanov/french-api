@@ -1,0 +1,8 @@
+CREATE TABLE words (
+  id     SERIAL       NOT NULL PRIMARY KEY,
+  text   VARCHAR(40)  NOT NULL UNIQUE,
+  image  VARCHAR(100) NOT NULL DEFAULT '',
+  notes  VARCHAR(500) NOT NULL DEFAULT '',
+  gender VARCHAR(1)   NOT NULL CHECK (gender IN ('', 'f', 'm')) DEFAULT '',
+  date   DATE         NOT NULL DEFAULT CURRENT_DATE
+);
