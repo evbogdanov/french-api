@@ -2,18 +2,32 @@ import db from '../db';
 
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Constants
+/// Columns
 ////////////////////////////////////////////////////////////////////////////////
 
-const PROP_NAMES = [
-  // 'id' and 'date' are handled by Postgres
-  'text',
-  'image',
-  'notes',
-  'gender',
+const COLUMNS = [
+  {name: 'id',     editable: false},
+  {name: 'text',   editable: true},
+  {name: 'image',  editable: true},
+  {name: 'notes',  editable: true},
+  {name: 'gender', editable: true},
+  {name: 'date',   editable: false, view: 'CURRENT_DATE - date AS days_ago'},
 ];
 
-const PROP_NAMES_STRING = PROP_NAMES.join(', ');
+const COLUMNS_EDITABLE_NAMES = COLUMNS
+      .filter(c => c.editable)
+      .map(c => c.name);
+
+// I use $() as my named placeholder
+const COLUMNS_EDITABLE_PLACEHOLDERS = COLUMNS_EDITABLE_NAMES
+      .map(n => `$(${n})`)
+      .join(', ');
+
+const COLUMNS_EDITABLE_NAMES_STRING = COLUMNS_EDITABLE_NAMES.join(', ');
+
+const COLUMNS_VIEW_STRING = COLUMNS
+      .map(c => c.view || c.name)
+      .join(', ');
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -21,15 +35,13 @@ const PROP_NAMES_STRING = PROP_NAMES.join(', ');
 ////////////////////////////////////////////////////////////////////////////////
 
 export const create = async (props) => {
-  const values = [];
-  for (const propName of PROP_NAMES) {
-    const value = props[propName] || '';
-    values.push(value);
+  const values = {};
+  for (const name of COLUMNS_EDITABLE_NAMES) {
+    values[name] = props[name] || '';
   }
-
   await db.none(
-    `INSERT INTO words (${PROP_NAMES_STRING})
-     VALUES ($1, $2, $3, $4)`,
+    `INSERT INTO words (${COLUMNS_EDITABLE_NAMES_STRING})
+     VALUES (${COLUMNS_EDITABLE_PLACEHOLDERS})`,
     values
   );
 };
@@ -40,42 +52,47 @@ export const search = async (query) => {
   const limit = 20;
 
   return await db.any(
-    `SELECT * FROM words
-     WHERE unaccent(text) ILIKE (unaccent('$1#') || '%')
+    `SELECT ${COLUMNS_VIEW_STRING} FROM words
+     WHERE unaccent(text) ILIKE (unaccent('$(text:value)') || '%')
      ORDER BY id DESC
-     OFFSET $2
-     LIMIT $3`,
-    [
+     OFFSET $(offset)
+     LIMIT $(limit)`,
+    {
       text,
       offset,
       limit,
-    ]
+    }
   );
 };
 
 export const getById = async (id) => {
-  return await db.one('SELECT * FROM words WHERE id = $1', [id]);
+  return await db.one(
+    `SELECT ${COLUMNS_VIEW_STRING} FROM words
+     WHERE id = $(id)`,
+    {id}
+  );
 };
 
 export const upd = async (id, props) => {
   const word = await getById(id);
-  const values = [];
+  const values = {id};
 
-  for (const propName of PROP_NAMES) {
-    let value = word[propName];
-    if (typeof props[propName] !== 'undefined') {
-      value = props[propName];
+  for (const name of COLUMNS_EDITABLE_NAMES) {
+    let value = word[name];
+    if (typeof props[name] !== 'undefined') {
+      value = props[name];
     }
-    values.push(value);
+    values[name] = value;
   }
 
   await db.none(
-    `UPDATE words SET (${PROP_NAMES_STRING}) = ($1, $2, $3, $4)
-     WHERE id = $5`,
-    [...values, id]
+    `UPDATE words
+     SET (${COLUMNS_EDITABLE_NAMES_STRING}) = (${COLUMNS_EDITABLE_PLACEHOLDERS})
+     WHERE id = $(id)`,
+    values
   );
 };
 
 export const del = async (id) => {
-  await db.none('DELETE FROM words WHERE id = $1', [id]);
+  await db.none('DELETE FROM words WHERE id = $(id)', {id});
 };
