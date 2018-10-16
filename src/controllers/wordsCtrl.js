@@ -1,4 +1,6 @@
-import * as words from '../models/words';
+import Words from '../models/words';
+
+const words = new Words();
 
 ////////////////////////////////////////////////////////////////////////////////
 // Use HTTP Status Codes:
