@@ -18,15 +18,14 @@ class Words extends SharedModel {
   async search(query) {
     const text = query.text || '';
     const offset = query.offset || 0;
-    const limit = 20;
 
     return await db.any(
       `SELECT ${this.columnsViewAs} FROM ${this.table}
        WHERE unaccent(text) ILIKE (unaccent('$(text:value)') || '%')
        ORDER BY id DESC
        OFFSET $(offset)
-       LIMIT $(limit)`,
-      {text, offset, limit}
+       LIMIT ${this.limit}`,
+      {text, offset}
     );
   }
 }

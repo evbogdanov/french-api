@@ -5,6 +5,9 @@ class SharedModel {
     this.table = table;
     this.columns = columns;
 
+    // Objects per page
+    this.limit = 30;
+
     this.columnsEditableNames = this.columns
       .filter(c => c.editable)
       .map(c => c.name);
