@@ -15,6 +15,7 @@ $ createdb french
 $ psql -d french -a -f src/sql/createExtensionUnaccent.sql
 $ psql -d french -a -f src/sql/createTableWords.sql
 $ psql -d french -a -f src/sql/createTablePhrases.sql
+$ psql -d french -a -f src/sql/createTableRelatedWords.sql
 ```
 
 ## Development

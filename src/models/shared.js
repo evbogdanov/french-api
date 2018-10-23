@@ -3,6 +3,9 @@ import db from '../db';
 class SharedModel {
   constructor(table, columns) {
     this.table = table;
+    this.tableShortcut = table[0];
+    this.tableWithShortcut = `${this.table} ${this.tableShortcut}`;
+
     this.columns = columns;
 
     // Objects per page
@@ -20,7 +23,7 @@ class SharedModel {
     this.columnsEditableNamesString = this.columnsEditableNames.join(', ');
 
     this.columnsViewAs = this.columns
-      .map(c => c.view || c.name)
+      .map(c => c.view || `${this.tableShortcut}.${c.name}`)
       .join(', ');
   }
 
@@ -39,8 +42,8 @@ class SharedModel {
   async getById(id) {
     return await db.one(
       `SELECT ${this.columnsViewAs}
-       FROM ${this.table}
-       WHERE id = $(id)`,
+       FROM ${this.tableWithShortcut}
+       WHERE ${this.tableShortcut}.id = $(id)`,
       {id}
     );
   }

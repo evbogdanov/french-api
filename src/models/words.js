@@ -10,7 +10,7 @@ class Words extends SharedModel {
       {name: 'image',  editable: true},
       {name: 'notes',  editable: true},
       {name: 'gender', editable: true},
-      {name: 'date',   editable: false, view: 'CURRENT_DATE - date AS days_ago'},
+      {name: 'date',   editable: false, view: 'CURRENT_DATE - w.date AS days_ago'},
     ];
     super(table, columns);
   }
@@ -20,9 +20,9 @@ class Words extends SharedModel {
     const offset = query.offset || 0;
 
     return await db.any(
-      `SELECT ${this.columnsViewAs} FROM ${this.table}
-       WHERE unaccent(text) ILIKE (unaccent('$(text:value)') || '%')
-       ORDER BY id DESC
+      `SELECT ${this.columnsViewAs} FROM ${this.tableWithShortcut}
+       WHERE unaccent(w.text) ILIKE (unaccent('$(text:value)') || '%')
+       ORDER BY w.id DESC
        OFFSET $(offset)
        LIMIT ${this.limit}`,
       {text, offset}
