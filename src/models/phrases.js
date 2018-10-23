@@ -20,7 +20,7 @@ class Phrases extends SharedModel {
 
     return await db.any(
       `SELECT
-         ${this.columnsViewAs}, array_agg(w.text) AS related_words
+         ${this.columnsViewAs}, array_remove(array_agg(w.text), NULL) AS related_words
        FROM
          ${this.tableWithShortcut}
        LEFT JOIN
