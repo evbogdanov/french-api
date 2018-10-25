@@ -30,3 +30,19 @@ export const del = async (req, res) => {
   await phrases.del(id);
   res.status(204).json({data: null});
 };
+
+export const addWord = async (req, res) => {
+  await phrases.addWord(
+    req.params.id,
+    req.params.wid
+  );
+  res.status(204).json({data: null});
+};
+
+export const removeWord = async (req, res) => {
+  await phrases.removeWord(
+    req.params.id,
+    req.params.wid
+  );
+  res.status(204).json({data: null});
+};

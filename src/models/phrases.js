@@ -54,6 +54,21 @@ class Phrases extends SharedModel {
       {text, offset}
     );
   }
+
+  async addWord(phrase_id, word_id) {
+    await db.none(
+      `INSERT INTO related_words VALUES ($(phrase_id), $(word_id))`,
+      {phrase_id, word_id}
+    );
+  }
+
+  async removeWord(phrase_id, word_id) {
+    await db.none(
+      `DELETE FROM related_words
+        WHERE phrase_id=$(phrase_id) AND word_id=$(word_id)`,
+      {phrase_id, word_id}
+    );
+  }
 }
 
 export default Phrases;

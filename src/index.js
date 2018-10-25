@@ -23,6 +23,7 @@ app.get('/v1/phrases/search', asyncHandler(phrasesCtrl.search));
 app.get('/v1/phrases/:id', asyncHandler(phrasesCtrl.getById));
 app.put('/v1/phrases/:id', asyncHandler(phrasesCtrl.upd));
 app.delete('/v1/phrases/:id', asyncHandler(phrasesCtrl.del));
-
+app.put('/v1/phrases/:id/words/:wid', asyncHandler(phrasesCtrl.addWord));
+app.delete('/v1/phrases/:id/words/:wid', asyncHandler(phrasesCtrl.removeWord));
 
 app.listen(4000);
