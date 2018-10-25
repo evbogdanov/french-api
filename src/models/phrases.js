@@ -12,6 +12,22 @@ class Phrases extends SharedModel {
       {name: 'date',  editable: false, view: 'CURRENT_DATE - p.date AS days_ago'},
     ];
     super(table, columns);
+
+    // Need this subquery to collect all related words
+    // (not just the matched one by search)
+    this.selectRelatedWords = `(
+      SELECT array_agg(w.text) FROM words w
+      WHERE w.id IN (SELECT word_id FROM related_words WHERE phrase_id = p.id)
+    ) AS related_words`;
+  }
+
+  async getById(id) {
+    return await db.one(
+      `SELECT ${this.columnsViewAs}, ${this.selectRelatedWords}
+         FROM ${this.tableWithShortcut}
+        WHERE p.id = $(id)`,
+      {id}
+    );
   }
 
   async search(query) {
@@ -20,7 +36,7 @@ class Phrases extends SharedModel {
 
     return await db.any(
       `SELECT
-         ${this.columnsViewAs}, array_remove(array_agg(w.text), NULL) AS related_words
+         ${this.columnsViewAs}, ${this.selectRelatedWords}
        FROM
          ${this.tableWithShortcut}
        LEFT JOIN
