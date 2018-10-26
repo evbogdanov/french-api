@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 
 // What the heck is asyncHandler?
 // https://medium.com/@Abazhenov/using-async-await-in-express-b8af872c0016
@@ -12,11 +13,12 @@ import * as secretsCtrl from './controllers/secretsCtrl';
 
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Prepare Express app
+/// Express + JSON parser + CORS
 ////////////////////////////////////////////////////////////////////////////////
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 
 ////////////////////////////////////////////////////////////////////////////////
