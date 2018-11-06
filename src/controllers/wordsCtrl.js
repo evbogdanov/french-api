@@ -9,8 +9,8 @@ const words = new Words();
 ////////////////////////////////////////////////////////////////////////////////
 
 export const create = async (req, res) => {
-  await words.create(req.body);
-  res.status(204).json({data: null});
+  const data = await words.create(req.body);
+  res.status(200).json({data});
 };
 
 export const search = async (req, res) => {

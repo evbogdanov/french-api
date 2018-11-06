@@ -3,8 +3,8 @@ import Phrases from '../models/phrases';
 const phrases = new Phrases();
 
 export const create = async (req, res) => {
-  await phrases.create(req.body);
-  res.status(204).json({data: null});
+  const data = await phrases.create(req.body);
+  res.status(200).json({data});
 };
 
 export const search = async (req, res) => {

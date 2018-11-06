@@ -32,9 +32,10 @@ class SharedModel {
     for (const name of this.columnsEditableNames) {
       values[name] = props[name] || '';
     }
-    await db.none(
+    return await db.one(
       `INSERT INTO ${this.table} (${this.columnsEditableNamesString})
-       VALUES (${this.columnsEditablePlaceholders})`,
+       VALUES (${this.columnsEditablePlaceholders})
+       RETURNING id`,
       values
     );
   }
