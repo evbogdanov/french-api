@@ -73,6 +73,7 @@ app.get('/v1/phrases/search', asyncHandler(phrasesCtrl.search));
 app.get('/v1/phrases/:id', asyncHandler(phrasesCtrl.getById));
 app.put('/v1/phrases/:id', asyncHandler(phrasesCtrl.upd));
 app.delete('/v1/phrases/:id', asyncHandler(phrasesCtrl.del));
+app.post('/v1/phrases/:id/words', asyncHandler(phrasesCtrl.addManyWords));
 app.put('/v1/phrases/:id/words/:wid', asyncHandler(phrasesCtrl.addWord));
 app.delete('/v1/phrases/:id/words/:wid', asyncHandler(phrasesCtrl.removeWord));
 

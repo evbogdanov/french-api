@@ -36,6 +36,13 @@ export const del = async (req, res) => {
   res.status(204).json({data: null});
 };
 
+export const addManyWords = async (req, res) => {
+  for (const wid of req.body.wordIds) {
+    await phrases.addWord(req.params.id,  wid);
+  }
+  res.status(204).json({data: null});
+};
+
 export const addWord = async (req, res) => {
   await phrases.addWord(
     req.params.id,
