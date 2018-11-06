@@ -18,6 +18,11 @@ export const search = async (req, res) => {
   res.status(200).json({data});
 };
 
+export const getSuggestions = async (req, res) => {
+  const data = await words.getSuggestions(req.query);
+  res.status(200).json({data});
+};
+
 export const getById = async (req, res) => {
   const id = req.params.id;
   const data = await words.getById(id);

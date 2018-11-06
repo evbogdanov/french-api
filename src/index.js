@@ -57,6 +57,7 @@ app.post('/v1/secrets', secretsCtrl.ping);
 
 app.post('/v1/words', asyncHandler(wordsCtrl.create));
 app.get('/v1/words/search', asyncHandler(wordsCtrl.search));
+app.get('/v1/words/suggestions', asyncHandler(wordsCtrl.getSuggestions));
 app.get('/v1/words/:id', asyncHandler(wordsCtrl.getById));
 app.put('/v1/words/:id', asyncHandler(wordsCtrl.upd));
 app.delete('/v1/words/:id', asyncHandler(wordsCtrl.del));
@@ -67,6 +68,7 @@ app.delete('/v1/words/:id', asyncHandler(wordsCtrl.del));
 ////////////////////////////////////////////////////////////////////////////////
 
 app.post('/v1/phrases', asyncHandler(phrasesCtrl.create));
+app.get('/v1/phrases/suggestions', asyncHandler(phrasesCtrl.getSuggestions));
 app.get('/v1/phrases/search', asyncHandler(phrasesCtrl.search));
 app.get('/v1/phrases/:id', asyncHandler(phrasesCtrl.getById));
 app.put('/v1/phrases/:id', asyncHandler(phrasesCtrl.upd));

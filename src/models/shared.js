@@ -77,6 +77,19 @@ class SharedModel {
       {id}
     );
   }
+
+  // Suggestions look like {id, text}, they are useful for all kinds of forms
+  async getSuggestions(query) {
+    const text = query.text || '';
+
+    return await db.any(
+      `SELECT id, text FROM ${this.table}
+       WHERE unaccent(text) ILIKE (unaccent('$(text:value)') || '%')
+       ORDER BY text
+       LIMIT ${this.limit}`,
+      {text}
+    );
+  }
 }
 
 export default SharedModel;
