@@ -3,6 +3,6 @@ CREATE TABLE related_words (
   word_id   INTEGER NOT NULL,
 
   PRIMARY KEY (phrase_id, word_id),
-  FOREIGN KEY (phrase_id) REFERENCES phrases(id),
-  FOREIGN KEY (word_id)   REFERENCES words(id)
+  FOREIGN KEY (phrase_id) REFERENCES phrases(id) ON DELETE CASCADE,
+  FOREIGN KEY (word_id)   REFERENCES words(id)   ON DELETE CASCADE
 );
