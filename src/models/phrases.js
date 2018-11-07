@@ -16,7 +16,8 @@ class Phrases extends SharedModel {
     // Need this subquery to collect all related words
     // (not just the matched one by search)
     this.selectRelatedWords = `(
-      SELECT array_agg(w.text) FROM words w
+      SELECT json_agg(json_build_object('id', w.id, 'text', w.text))
+      FROM words w
       WHERE w.id IN (SELECT word_id FROM related_words WHERE phrase_id = p.id)
     ) AS related_words`;
   }
