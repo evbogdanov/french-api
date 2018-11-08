@@ -10,6 +10,7 @@ import secrets from './secrets';
 import * as wordsCtrl from './controllers/wordsCtrl';
 import * as phrasesCtrl from './controllers/phrasesCtrl';
 import * as secretsCtrl from './controllers/secretsCtrl';
+import * as statsCtrl from './controllers/statsCtrl';
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -76,6 +77,13 @@ app.delete('/v1/phrases/:id', asyncHandler(phrasesCtrl.del));
 app.post('/v1/phrases/:id/words', asyncHandler(phrasesCtrl.addManyWords));
 app.put('/v1/phrases/:id/words/:wid', asyncHandler(phrasesCtrl.addWord));
 app.delete('/v1/phrases/:id/words/:wid', asyncHandler(phrasesCtrl.removeWord));
+
+
+////////////////////////////////////////////////////////////////////////////////
+/// Statistics API
+////////////////////////////////////////////////////////////////////////////////
+
+app.get('/v1/stats/count', asyncHandler(statsCtrl.countWordsAndPhrases));
 
 
 ////////////////////////////////////////////////////////////////////////////////
