@@ -10,6 +10,7 @@ class SharedModel {
 
     // Objects per page
     this.limit = 30;
+    this.suggestionsLimit = 10;
 
     this.columnsEditableNames = this.columns
       .filter(c => c.editable)
@@ -86,7 +87,7 @@ class SharedModel {
       `SELECT id, text FROM ${this.table}
        WHERE unaccent(text) ILIKE (unaccent('$(text:value)') || '%')
        ORDER BY text
-       LIMIT ${this.limit}`,
+       LIMIT ${this.suggestionsLimit}`,
       {text}
     );
   }
