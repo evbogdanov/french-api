@@ -5,11 +5,10 @@
 ################################################################################
 
 read -p 'Enter secret: ' fr_secret
-read -p 'Enter database user: ' fr_db_user
 
 cat > .env <<ENV
 FR_SECRET=$fr_secret
-FR_DATABASE_URL=postgres://$fr_db_user@127.0.0.1:5432/french
+FR_DATABASE_URL=postgres://$USER@127.0.0.1:5432/french
 ENV
 
 
