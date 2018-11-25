@@ -2,9 +2,9 @@
 Back end for my French app
 
 ## Install
-```
-./install.sh
-```
+1. Install Node.js (version >=10)
+2. Install and configure Postgres (version >= 10)
+3. Run `./install.sh`
 
 ## Development
 ```
