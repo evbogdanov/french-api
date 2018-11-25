@@ -6,8 +6,9 @@
   "description": "Back end for my French app",
   "main": "index.js",
   "scripts": {
-    "build": "babel src/index.js --out-dir build",
-    "start": "babel-watch src/index.js"
+    "start": "babel-watch src/index.js",
+    "build": "babel src --out-dir build",
+    "serve": "node build/index.js"
   },
   "repository": {
     "type": "git",

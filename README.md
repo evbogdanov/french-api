@@ -10,3 +10,9 @@ Back end for my French app
 ```
 npm start
 ```
+
+## Production
+```
+npm run build
+npm run serve
+```
