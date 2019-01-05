@@ -14,3 +14,5 @@ export const ERROR_SERVER = 500;
 
 // My custom errors
 export const ERROR_OTHER = 418; // I'm a teapot :-)
+// Note: server responses with that status code are expected to have a
+// human-readable { message } in their body
