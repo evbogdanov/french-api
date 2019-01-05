@@ -28,14 +28,18 @@ class SharedModel {
       .join(', ');
   }
 
+  // It will return:
+  // - On successful creation: [ {id} ]
+  // - On duplicate: []
   async create(props) {
     const values = {};
     for (const name of this.columnsEditableNames) {
       values[name] = props[name] || '';
     }
-    return await db.one(
+    return await db.any(
       `INSERT INTO ${this.table} (${this.columnsEditableNamesString})
        VALUES (${this.columnsEditablePlaceholders})
+       ON CONFLICT DO NOTHING
        RETURNING id`,
       values
     );
@@ -46,13 +50,13 @@ class SharedModel {
       `SELECT ${this.columnsViewAs}
        FROM ${this.tableWithShortcut}
        WHERE ${this.tableShortcut}.id = $(id)`,
-      {id}
+      { id }
     );
   }
 
   async upd(id, props) {
     const obj = await this.getById(id);
-    const values = {id};
+    const values = { id };
 
     for (const name of this.columnsEditableNames) {
       let value = obj[name];
@@ -75,7 +79,7 @@ class SharedModel {
     await db.none(
       `DELETE FROM ${this.table}
        WHERE id = $(id)`,
-      {id}
+      { id }
     );
   }
 
@@ -88,7 +92,7 @@ class SharedModel {
        WHERE unaccent(text) ILIKE (unaccent('$(text:value)') || '%')
        ORDER BY text
        LIMIT ${this.suggestionsLimit}`,
-      {text}
+      { text }
     );
   }
 }
