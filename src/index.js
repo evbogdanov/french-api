@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import * as status from './status';
 
 // What the heck is asyncHandler?
 // https://medium.com/@Abazhenov/using-async-await-in-express-b8af872c0016
@@ -37,7 +38,7 @@ const handleProtectedRoutes = (req, res, next) => {
     return next();
   }
 
-  res.status(401).json({
+  res.status(status.ERROR_UNAUTHORIZED).json({
     message: 'Tell me the secret'
   });
 };
